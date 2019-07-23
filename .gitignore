@@ -102,3 +102,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Sensitive folders
+handlers/configuration/config.json
+data/*.db
+
+# vscode
+/.vscode
+*.code-workspace
