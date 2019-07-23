@@ -22,7 +22,6 @@ A Discord bot that creates chaos via meowing at random intervals
 * Invite the bot to your server with this link, after replacing "ID_HERE" with the client ID in the "General Information" tab: `https://discordapp.com/oauth2/authorize?client_id=ID_HERE&scope=bot&permissions=53857344`
 
 ### Running the bot:
-* After inviting the bot to the server, run the following command depending on your operating system:
 |  Operating system  |  Command  |
 | ------------- | ------------- |
 |  Windows  |  `py -3 bot.py`  |
