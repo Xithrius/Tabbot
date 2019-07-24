@@ -11,6 +11,7 @@ import asyncio
 import json
 import random
 import traceback
+import datetime
 
 from discord.ext import commands as comms
 import discord
@@ -61,7 +62,10 @@ class MainCog(comms.Cog):
             members = [guild.members for guild in self.bot.guilds]
             member = random.choice(random.choice(members))
             meow = ''.join(str(y) for y in [f'{letter * random.choice(range(1, 7))}' for letter in 'Meow'])
-            await member.send(meow)
+            try:
+                await member.send(meow)
+            except discord.errors.Forbidden:
+                continue
             printc(f'Sent {meow} to {member.name}#{member.discriminator}')
             c = self.conn.cursor()
             try:
@@ -71,7 +75,7 @@ class MainCog(comms.Cog):
             except IndexError:
                 c.execute('''INSERT INTO MeowDB VALUES (?, ?, ?)''', (member.id, f'{member.name}#{member.discriminator}', 1))
             self.conn.commit()
-            await asyncio.sleep(600)
+            await asyncio.sleep(60)
         self.conn.commit()
         self.conn.close()
 
