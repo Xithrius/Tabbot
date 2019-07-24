@@ -25,4 +25,4 @@ def printc(string):
 
 def now():
     """ Returns the time depending on time zone from file """
-    return datetime.datetime.now() + datetime.timedelta(hours=7)
+    return datetime.datetime.now()

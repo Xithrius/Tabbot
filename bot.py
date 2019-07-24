@@ -57,7 +57,7 @@ class MainCog(comms.Cog):
     async def meower(self):
         """ Meowes at everyone """
         await self.bot.wait_until_ready()
-        if not self.bot.is_closed():
+        while not self.bot.is_closed():
             members = [guild.members for guild in self.bot.guilds]
             member = random.choice(random.choice(members))
             meow = ''.join(str(y) for y in [f'{letter * random.choice(range(1, 7))}' for letter in 'Meow'])
@@ -93,7 +93,7 @@ class MainCog(comms.Cog):
     @comms.is_owner()
     async def exit(self, ctx):
         """ Makes the client logout """
-        printc('[WARNING]: CLIENT IS LOGGING OUT')
+        printc('[WARNING]: MEOWER IS LOGGING OUT')
         await ctx.bot.logout()
         self.conn.close()
 
