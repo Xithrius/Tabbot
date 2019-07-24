@@ -9,6 +9,8 @@ import sqlite3
 import os
 import asyncio
 import json
+import random
+import traceback
 
 from discord.ext import commands as comms
 import discord
@@ -40,7 +42,7 @@ class MainCog(comms.Cog):
     def createDB(self):
         self.conn = sqlite3.connect(self.db_path)
         c = self.conn.cursor()
-        c.execute('''CREATE TABLE MeowDB(id INTEGER NOT NULL PRIMARY KEY UNIQUE, meows INTEGER)''')
+        c.execute('''CREATE TABLE MeowDB(id INTEGER NOT NULL PRIMARY KEY UNIQUE, name TEXT, meows INTEGER)''')
         self.conn.commit()
         self.conn.close()
 
@@ -55,10 +57,22 @@ class MainCog(comms.Cog):
     async def meower(self):
         """ Meowes at everyone """
         await self.bot.wait_until_ready()
-        while not self.bot.is_closed():
-            members = [member for member in self.bot.guilds]
-            print(members)
-            break
+        if not self.bot.is_closed():
+            members = [guild.members for guild in self.bot.guilds]
+            member = random.choice(random.choice(members))
+            meow = ''.join(str(y) for y in [f'{letter * random.choice(range(1, 7))}' for letter in 'Meow'])
+            await member.send(meow)
+            printc(f'Sent {meow} to {member.name}#{member.discriminator}')
+            c = self.conn.cursor()
+            try:
+                c.execute('''SELECT id, meows FROM MeowDB WHERE id = ?''', (member.id,))
+                meows = c.fetchall()[0][1]
+                c.execute('''UPDATE MeowDB SET meows = ? WHERE id = ?''', (meows + 1, member.id))
+            except IndexError:
+                c.execute('''INSERT INTO MeowDB VALUES (?, ?, ?)''', (member.id, f'{member.name}#{member.discriminator}', 1))
+            self.conn.commit()
+            await asyncio.sleep(600)
+        self.conn.commit()
         self.conn.close()
 
     """ Events """
@@ -66,20 +80,22 @@ class MainCog(comms.Cog):
     @comms.Cog.listener()
     async def on_ready(self):
         """ Alerting the owner of startup """
+        await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name='with cats'))
         printc('[ ! ]: MEOWER IS ACTIVE')
+
+    @comms.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        await ctx.send(error)
 
     """ Commands """
 
-    @comms.command()
+    @comms.command(hidden=True)
     @comms.is_owner()
     async def exit(self, ctx):
         """ Makes the client logout """
         printc('[WARNING]: CLIENT IS LOGGING OUT')
         await ctx.bot.logout()
-        try:
-            self.conn.close()
-        except Exception as e:
-            pass
+        self.conn.close()
 
 
 if __name__ == "__main__":
