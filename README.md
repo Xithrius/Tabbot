@@ -1,6 +1,3 @@
-<p align="center">
-    <img src="/bot/resources/icon.jpg"/>
-</p>
 <h1 align="center">Tabbot</h1>
 <h3 align="center">Small amounts of chaos through meowing.</h3>
 
