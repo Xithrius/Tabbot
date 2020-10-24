@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:latest
+    init: true
+    restart: always
+
+    expose:
+      - 5432
+
+    volumes:
+      - ./postgres_data/:/var/lib/postgresql/data/
+
+  tabbot:
+    container_name: tabbot
+    init: true
+    restart: always
+
+    depends_on:
+      - postgres
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - ./logs:/tabbot/logs
+      - .:/tabbot:ro
+
+    ports:
+      - 5005:5000
