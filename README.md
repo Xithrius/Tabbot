@@ -1,31 +1,9 @@
-<p align="left">
-    <img src="icon.png"/>
-</p>
-
-
-# Tabbot
-A Discord bot that creates chaos via meowing at random intervals
-
-
-## Setup
-
-### Installing requirements:
-|  Operating system  |  Command  |
-| ------------- | ------------- |
-|  Windows  |  `py -3 -m pip install -r requirements.txt`  |
-|  Linux  | `python3 -m pip install -r requirements.txt`  |
-
-### Setting up configuration:
-* Copy `config_example.json` into a new file called `config.json`, then replace "Discord token" with your bot token that you get from [Here](https://discordapp.com/developers/applications/) after you create your bot, in the "Bot" tab.
-
-### Invite the bot:
-* Invite the bot to your server with this link, after replacing "ID_HERE" with the client ID in the "General Information" tab: `https://discordapp.com/oauth2/authorize?client_id=ID_HERE&scope=bot&permissions=53857344`
-
-### Running the bot:
-|  Operating system  |  Command  |
-| ------------- | ------------- |
-|  Windows  |  `py -3 bot.py`  |
-|  Linux  |  `python3 bot.py`  |
-
-### All is done, let the chaos begin.
-* The bot should have started up now, enjoy the chaos that singular Tabbot brings.
+# Setup:
+*NOTE*:
+- This guide assumes you've copied the template from `.env-example` to a file called `.env` that you've created yourself.
+- The placeholder in the postgres command is your password that you must put into your `.env` file.
+```shell script
+$ docker pull postgres
+$ docker run --name postgres -e POSTGRES_PASSWORD=PLACEHOLDER_PASSWORD -d postgres
+docker-compose up --build
+```
