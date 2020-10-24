@@ -110,3 +110,6 @@ data/*.db
 # vscode
 /.vscode
 *.code-workspace
+
+# logs
+logs/*
